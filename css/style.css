@@ -1,0 +1,624 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  /* Основний і акцентний кольори */
+  --primary: #6d2e46; /* білий текст на ньому — 9.86:1 */
+  --primary-soft: #f6d9c9; /* на --primary — 7.37:1 */
+  --accent: #c2410c; /* білий текст на ньому — 5.18:1 */
+  --accent-hover: #9a3412; /* білий текст на ньому — 7.31:1 */
+
+  /* Нейтральні */
+  --bg: #fbf8f3;
+  --surface: #ffffff;
+  --text: #2b2622; /* на --bg — 14.13:1 */
+  --text-muted: #6b6158; /* на білому — 6.04:1, на --bg — 5.70:1 */
+  --border: #e8dfd3;
+  --footer-bg: #f3ece2;
+  --footer-text: #5e554c; /* на --footer-bg — 6.22:1 */
+
+  /* Сигнальні кольори пріоритетів (текст / фон мітки / смуга картки) */
+  --high-text: #b42318; /* на --high-bg — 5.45:1 */
+  --high-bg: #fee4e2;
+  --high-line: #d92d20;
+  --medium-text: #93370d; /* на --medium-bg — 6.62:1 */
+  --medium-bg: #fef0c7;
+  --medium-line: #f79009;
+  --low-text: #067647; /* на --low-bg — 5.11:1 */
+  --low-bg: #dcfae6;
+  --low-line: #17b26a;
+
+  /* Шрифти: Rubik — заголовки й числа, Nunito — основний текст */
+  --font-heading: "Rubik", Verdana, Arial, sans-serif;
+  --font-body: "Nunito", Verdana, Arial, sans-serif;
+
+  /* Типографічна шкала: 14 / 16 / 20 / 28 / 36 px */
+  --fs-sm: 0.875rem; /* 14px — дрібні підписи, footer */
+  --fs-base: 1rem; /* 16px — основний текст */
+  --fs-h3: 1.125rem; /* 18px — назва товару */
+  --fs-price: 1.5rem; /* 24px — ціна товару */
+  --fs-h2: 1.25rem; /* 20px — заголовки секцій (мобільний) */
+  --fs-h1: 1.75rem; /* 28px — заголовок сторінки (мобільний) */
+  --fs-display: 2.25rem; /* 36px — підсумкова сума */
+
+  /* Відступи за шкалою 4/8 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  --radius: 12px;
+  --shadow-sm: 0 1px 3px rgba(43, 38, 34, 0.08);
+  --shadow-md: 0 8px 20px rgba(43, 38, 34, 0.1);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---------- Шапка ---------- */
+
+.site-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  background-color: var(--primary);
+  padding: var(--space-4);
+  text-align: center;
+}
+
+.site-header h1 {
+  font-size: var(--fs-h1);
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+}
+
+.site-header nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.site-header nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  padding: var(--space-1) var(--space-2);
+  border-bottom: 2px solid transparent;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.site-header nav a:hover,
+.site-header nav a:focus-visible {
+  color: var(--primary-soft);
+  border-bottom-color: var(--primary-soft);
+}
+
+/* ---------- Макет ---------- */
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4);
+}
+
+main {
+  min-width: 0;
+}
+
+section {
+  margin-bottom: var(--space-7);
+}
+
+section:last-child {
+  margin-bottom: 0;
+}
+
+section h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--primary);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: var(--space-2);
+  margin: 0 0 var(--space-5) 0;
+}
+
+/* ---------- Форма ---------- */
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-width: 420px;
+  padding: var(--space-5);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+form label {
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+/* Поле й підпис до нього — ближче одне до одного (близькість),
+   групи «підпис + поле» — відділені більшим відступом */
+form input,
+form select {
+  margin-bottom: var(--space-3);
+  padding: 10px var(--space-3);
+  border: 1px solid #cfc4b6;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: var(--fs-base);
+  color: var(--text);
+  background-color: var(--surface);
+}
+
+form input:focus,
+form select:focus {
+  outline: 3px solid rgba(194, 65, 12, 0.35);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+
+/* ---------------------------------------------------------
+   НЕЧІТКА ВИМОГА: «має бути приємно додавати нові бажання».
+   Інтерпретація: кнопка «Додати» — єдиний елемент на сторінці
+   теплого помаранчевого кольору (#C2410C), ті самі «10 %» акценту,
+   тож око знаходить її одразу. Теплий відтінок асоціюється з
+   подарунком і святом, а білий текст на ньому має контраст 5.18:1.
+   Hover-стан виразний, але м'який: кнопка темнішає (#9A3412, 7.31:1),
+   «піднімається» на 2px із тінню, а «+» повертається на 90° —
+   користувач отримує відчутний відгук, наче натискає справжню кнопку.
+   Для :active кнопка «притискається», для клавіатури є :focus-visible,
+   а користувачам із prefers-reduced-motion анімацію вимкнено.
+   --------------------------------------------------------- */
+.btn-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  font-family: var(--font-heading);
+  font-size: var(--fs-base);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  background-color: var(--accent);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(194, 65, 12, 0.3);
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.btn-add__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  font-size: 1.125rem;
+  line-height: 1;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.btn-add:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(154, 52, 18, 0.35);
+}
+
+.btn-add:hover .btn-add__icon {
+  transform: rotate(90deg);
+}
+
+.btn-add:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(154, 52, 18, 0.3);
+}
+
+.btn-add:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-add,
+  .btn-add__icon {
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-add:hover,
+  .btn-add:hover .btn-add__icon {
+    transform: none;
+  }
+}
+
+/* ---------- Картки бажань ---------- */
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+article {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: var(--surface);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-top: 5px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+article img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  margin-bottom: var(--space-4);
+}
+
+.wish--high {
+  border-top-color: var(--high-line);
+}
+
+.priority-high {
+  border-top-color: var(--high-line);
+}
+
+.wish--medium {
+  border-top-color: var(--medium-line);
+}
+
+.wish--low {
+  border-top-color: var(--low-line);
+}
+
+.priority {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  margin-bottom: var(--space-2);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  border-radius: 999px;
+}
+
+.priority::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+.priority--high {
+  color: var(--high-text);
+  background-color: var(--high-bg);
+}
+
+.priority--medium {
+  color: var(--medium-text);
+  background-color: var(--medium-bg);
+}
+
+.priority--low {
+  color: var(--low-text);
+  background-color: var(--low-bg);
+}
+
+/* ЧІТКА ВИМОГА: ціна — жирнішим і більшим шрифтом, ніж назва.
+   Назва: 18px / 600;  ціна: 24px / 800. */
+.wish__name {
+  font-family: var(--font-body);
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 var(--space-1) 0;
+}
+
+.wish__price {
+  font-family: var(--font-heading);
+  font-size: var(--fs-price);
+  font-weight: 800;
+  color: var(--text);
+  margin: auto 0 0 0;
+  line-height: 1.2;
+}
+
+.wish__price span {
+  font-size: var(--fs-base);
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+article.bought {
+  opacity: 0.6;
+}
+
+article.bought h3 {
+  text-decoration: line-through;
+}
+
+/* ---------- Підсумкова сума: окремий блок ---------- */
+/* Єдиний блок, залитий основним кольором: контрастує з білими
+   картками й одразу зчитується як «підсумок». */
+
+aside.total {
+  background-color: var(--primary);
+  color: #ffffff;
+  border-radius: var(--radius);
+  padding: var(--space-5);
+  text-align: center;
+  align-self: start;
+  box-shadow: var(--shadow-md);
+}
+
+aside.total h2 {
+  font-size: var(--fs-h2);
+  margin: 0 0 var(--space-3) 0;
+  padding-bottom: var(--space-3);
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.total__label,
+.total__count {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--primary-soft);
+}
+
+#total-price {
+  font-family: var(--font-heading);
+  font-size: var(--fs-display);
+  font-weight: 800;
+  line-height: 1.1;
+  color: #ffffff;
+  margin: var(--space-2) 0;
+  overflow-wrap: anywhere;
+}
+
+#total-price::after {
+  content: " грн";
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  color: var(--primary-soft);
+}
+
+/* ---------- Footer ---------- */
+
+footer {
+  background-color: var(--footer-bg);
+  font-size: var(--fs-sm);
+  padding: var(--space-5) var(--space-4);
+  color: var(--footer-text);
+  text-align: center;
+  border-top: 1px solid var(--border);
+  margin-top: var(--space-7);
+}
+
+footer p {
+  margin: var(--space-1) 0;
+}
+
+footer address {
+  font-style: normal;
+}
+
+footer a {
+  color: var(--footer-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  overflow-wrap: anywhere;
+}
+
+footer a:hover {
+  color: var(--primary);
+}
+
+/* ---------- Планшет ---------- */
+
+@media (min-width: 600px) {
+  .site-header {
+    padding: var(--space-5) var(--space-6);
+  }
+
+  .site-header h1 {
+    font-size: var(--fs-h1);
+  }
+
+  .site-header nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-5);
+  }
+
+  .layout {
+    padding: var(--space-6) var(--space-5);
+  }
+
+  section h2 {
+    font-size: 1.5rem;
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
+  }
+
+  aside.total {
+    max-width: 400px;
+    width: 100%;
+    justify-self: center;
+  }
+}
+
+/* ---------- Десктоп ---------- */
+
+@media (min-width: 1024px) {
+  .site-header {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: var(--space-5) var(--space-7);
+    text-align: left;
+  }
+
+  .site-header h1 {
+    font-size: var(--fs-display);
+  }
+
+  .layout {
+    grid-template-columns: 3fr 1fr;
+    gap: var(--space-6);
+    max-width: 1280px;
+    padding: var(--space-7);
+  }
+
+  section h2 {
+    font-size: var(--fs-h1);
+  }
+
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+
+  aside.total {
+    max-width: none;
+    justify-self: stretch;
+    position: sticky;
+    top: var(--space-5);
+  }
+
+  #total-price {
+    font-size: var(--fs-h1);
+  }
+}
+
+.wish[data-priority="середній"] {
+  border-top-color: var(--medium-line);
+}
+
+.wish[data-priority="низький"] {
+  border-top-color: var(--low-line);
+}
+
+.wish__priority {
+  margin-top: var(--space-2);
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+}
+
+.list-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.btn-reload {
+  padding: var(--space-2) var(--space-4);
+  font: inherit;
+  font-weight: 700;
+  color: var(--primary);
+  background-color: var(--surface);
+  border: 2px solid var(--primary);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.btn-reload:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.status {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.status--error {
+  color: var(--high-text);
+  font-weight: 700;
+}
+
+.wish__status {
+  margin: var(--space-1) 0 0;
+  color: var(--low-text);
+  font-weight: 700;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+.wish__priority-label {
+  margin: var(--space-1) 0 0;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+.wish__bought {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.wish__bought input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--low-line);
+}

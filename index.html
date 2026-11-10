@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Список бажань</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Rubik:wght@500;700;800&display=swap"
+    />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <h1>Список бажань</h1>
+      <nav>
+        <a href="#add-wish">Додати бажання</a>
+        <a href="#wishlist">Список бажань</a>
+        <a href="#total-price">Сума</a>
+      </nav>
+    </header>
+
+    <div class="layout" id="app" v-cloak>
+      <main>
+        <section id="add-wish">
+          <h2>Додати бажання</h2>
+          <form id="wish-form" @submit.prevent="addWish">
+            <label for="wish-name">Назва бажання:</label>
+            <input type="text" id="wish-name" name="wish-name" v-model.trim="newName" required />
+
+            <label for="wish-price">Ціна:</label>
+            <input
+              type="number"
+              id="wish-price"
+              name="wish-price"
+              step="0.01"
+              min="0"
+              v-model.number="newPrice"
+              @input="validatePrice"
+              required
+            />
+
+            <label for="wish-priority">Пріоритет:</label>
+            <select id="wish-priority" name="wish-priority" v-model="newPriority">
+              <option value="низький">Низький</option>
+              <option value="середній">Середній</option>
+              <option value="високий">Високий</option>
+            </select>
+
+            <button type="submit" class="btn-add">
+              <span class="btn-add__icon" aria-hidden="true">+</span>
+              Додати
+            </button>
+          </form>
+        </section>
+
+        <section id="wish-list">
+          <h2>Список бажань</h2>
+          <div class="list-toolbar">
+            <button type="button" id="reload-btn" class="btn-reload" :disabled="loading" @click="loadData">Оновити</button>
+            <p id="status" class="status" :class="{ 'status--error': isError }" role="status" aria-live="polite">{{ statusText }}</p>
+          </div>
+          <div id="wishlist" class="cards">
+            <wish-item
+              v-for="wish in wishes"
+              :key="wish.id"
+              :id="wish.id"
+              :name="wish.name"
+              :price="wish.price"
+              :priority="wish.priority"
+              :image="wish.image"
+              :bought="wish.bought"
+              @toggle="toggle"
+            ></wish-item>
+          </div>
+        </section>
+      </main>
+
+      <aside id="total" class="total">
+        <h2>Сума</h2>
+        <p class="total__label">Разом за всіма бажаннями</p>
+        <p id="total-price">{{ total.toFixed(2) }}</p>
+        <p class="total__count">Бажань у списку: {{ wishes.length }}</p>
+      </aside>
+    </div>
+
+    <footer>
+      <p>&copy; 2026 КПІ. Усі права захищені.</p>
+      <address>
+        <p>
+          Контакти:
+          <a href="mailto:demuraevgenij562@gmail.com"
+            >demuraevgenij562@gmail.com</a
+          >,
+          <a href="tel:+380997971565">+38 (099) 797-15-65</a>
+        </p>
+      </address>
+    </footer>
+
+  </body>
+</html>
